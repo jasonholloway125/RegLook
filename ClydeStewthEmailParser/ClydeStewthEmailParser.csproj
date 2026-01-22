@@ -109,6 +109,9 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
@@ -185,15 +188,6 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <COMReference Include="Microsoft.Office.Core">
-          <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-          <VersionMajor>2</VersionMajor>
-          <VersionMinor>7</VersionMinor>
-          <Lcid>0</Lcid>
-          <WrapperTool>tlbimp</WrapperTool>
-          <Isolated>False</Isolated>
-          <EmbedInteropTypes>true</EmbedInteropTypes>
-        </COMReference>
         <COMReference Include="Microsoft.Office.Interop.Outlook">
           <Guid>{00062FFF-0000-0000-C000-000000000046}</Guid>
           <VersionMajor>9</VersionMajor>
@@ -254,6 +248,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClydeStewthEmailParser_1_TemporaryKey.pfx" />
     <None Include="ClydeStewthEmailParser_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -286,10 +281,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>ClydeStewthEmailParser_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>ClydeStewthEmailParser_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>1AA8DF572B93DB4E3B8939E848FF540D3A65D060</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>039C64C6B2A55AB33100CD786DF475AA9B0E7821</ManifestCertificateThumbprint>
   </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- Include additional build rules for an Office application add-in. -->

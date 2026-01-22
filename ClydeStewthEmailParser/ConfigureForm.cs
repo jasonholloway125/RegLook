@@ -24,6 +24,8 @@ namespace ClydeStewthEmailParser
         private CheckBox descendingCB;
         private DateTimePicker startDTP;
         private DateTimePicker endDTP;
+        private CheckBox toggleDateCB;
+        private CheckBox toggleIDCB;
 
         public SearchForm()
         {
@@ -36,10 +38,13 @@ namespace ClydeStewthEmailParser
             descendingCB = (CheckBox)GetControlByName("descendingCheckBox", panel);
             startDTP = (DateTimePicker)GetControlByName("startDateTimePicker", panel);
             endDTP = (DateTimePicker)GetControlByName("endDateTimePicker", panel);
+            toggleDateCB = (CheckBox)GetControlByName("toggleDateCheckBox", panel);
+            toggleIDCB = (CheckBox)GetControlByName("toggleIDCheckBox", panel);
 
             DataManager dm = new DataManager();
 
             Config config = dm.LoadCachedConfig();
+            
             sff = new SearchFormFunc(this, config);
 
             ThisAddIn addInInstance = Globals.ThisAddIn;
@@ -89,8 +94,10 @@ namespace ClydeStewthEmailParser
             DateTime end = endDateTimePicker.Value;
             int emailLimit = (int)emaiLimitNUD.Value;
             bool desc = descendingCB.Checked;
+            bool date = toggleDateCB.Checked;
+            bool id = toggleIDCB.Checked;
             
-            Search.SearchFolder(sff.Config, checkedItems, start, end, emailLimit, desc);
+            Search.SearchFolder(sff.Config, checkedItems, start, end, emailLimit, desc, date, id);
         }
 
         private void button2_Click(object sender, EventArgs e)

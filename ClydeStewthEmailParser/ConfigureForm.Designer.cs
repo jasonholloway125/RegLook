@@ -35,6 +35,8 @@
             this.saveCSVButton = new System.Windows.Forms.Button();
             this.openResultsButton = new System.Windows.Forms.Button();
             this.optionsPanel = new System.Windows.Forms.Panel();
+            this.toggleIDTextBox = new System.Windows.Forms.TextBox();
+            this.toggleDateTextBox = new System.Windows.Forms.TextBox();
             this.emaiLimitNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.descendingCheckBox = new System.Windows.Forms.CheckBox();
             this.endDateTimePicker = new System.Windows.Forms.DateTimePicker();
@@ -44,8 +46,8 @@
             this.descendingTextBox = new System.Windows.Forms.TextBox();
             this.emailLimitTextBox = new System.Windows.Forms.TextBox();
             this.folderNameTextBox = new System.Windows.Forms.TextBox();
-            this.toggleDateTextBox = new System.Windows.Forms.TextBox();
-            this.toggleIDTextBox = new System.Windows.Forms.TextBox();
+            this.toggleDateCheckBox = new System.Windows.Forms.CheckBox();
+            this.toggleIDCheckBox = new System.Windows.Forms.CheckBox();
             this.optionsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.emaiLimitNumericUpDown)).BeginInit();
             this.SuspendLayout();
@@ -74,10 +76,9 @@
             "Test18",
             "Test19",
             "Test20"});
-            this.filtersCheckedListBox.Location = new System.Drawing.Point(16, 15);
-            this.filtersCheckedListBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.filtersCheckedListBox.Location = new System.Drawing.Point(12, 12);
             this.filtersCheckedListBox.Name = "filtersCheckedListBox";
-            this.filtersCheckedListBox.Size = new System.Drawing.Size(188, 293);
+            this.filtersCheckedListBox.Size = new System.Drawing.Size(142, 289);
             this.filtersCheckedListBox.TabIndex = 0;
             this.filtersCheckedListBox.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
@@ -85,10 +86,9 @@
             // 
             this.searchProgressBar.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.searchProgressBar.Cursor = System.Windows.Forms.Cursors.Default;
-            this.searchProgressBar.Location = new System.Drawing.Point(163, 252);
-            this.searchProgressBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.searchProgressBar.Location = new System.Drawing.Point(124, 215);
             this.searchProgressBar.Name = "searchProgressBar";
-            this.searchProgressBar.Size = new System.Drawing.Size(160, 33);
+            this.searchProgressBar.Size = new System.Drawing.Size(120, 27);
             this.searchProgressBar.TabIndex = 1;
             this.searchProgressBar.Click += new System.EventHandler(this.progressBar1_Click);
             // 
@@ -98,10 +98,9 @@
             this.searchButton.Enabled = false;
             this.searchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.searchButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.searchButton.Location = new System.Drawing.Point(7, 252);
-            this.searchButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.searchButton.Location = new System.Drawing.Point(7, 215);
             this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(160, 33);
+            this.searchButton.Size = new System.Drawing.Size(120, 27);
             this.searchButton.TabIndex = 2;
             this.searchButton.Text = "Search";
             this.searchButton.UseVisualStyleBackColor = false;
@@ -111,10 +110,9 @@
             // 
             this.saveCSVButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.saveCSVButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.saveCSVButton.Location = new System.Drawing.Point(382, 321);
-            this.saveCSVButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.saveCSVButton.Location = new System.Drawing.Point(286, 268);
             this.saveCSVButton.Name = "saveCSVButton";
-            this.saveCSVButton.Size = new System.Drawing.Size(168, 41);
+            this.saveCSVButton.Size = new System.Drawing.Size(126, 33);
             this.saveCSVButton.TabIndex = 3;
             this.saveCSVButton.Text = "Save to CSV";
             this.saveCSVButton.UseVisualStyleBackColor = false;
@@ -124,10 +122,9 @@
             // 
             this.openResultsButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.openResultsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.openResultsButton.Location = new System.Drawing.Point(215, 321);
-            this.openResultsButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.openResultsButton.Location = new System.Drawing.Point(161, 268);
             this.openResultsButton.Name = "openResultsButton";
-            this.openResultsButton.Size = new System.Drawing.Size(171, 41);
+            this.openResultsButton.Size = new System.Drawing.Size(128, 33);
             this.openResultsButton.TabIndex = 4;
             this.openResultsButton.Text = "Open Results";
             this.openResultsButton.UseVisualStyleBackColor = false;
@@ -137,6 +134,8 @@
             // 
             this.optionsPanel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.optionsPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.optionsPanel.Controls.Add(this.toggleIDCheckBox);
+            this.optionsPanel.Controls.Add(this.toggleDateCheckBox);
             this.optionsPanel.Controls.Add(this.toggleIDTextBox);
             this.optionsPanel.Controls.Add(this.toggleDateTextBox);
             this.optionsPanel.Controls.Add(this.emaiLimitNumericUpDown);
@@ -150,24 +149,45 @@
             this.optionsPanel.Controls.Add(this.folderNameTextBox);
             this.optionsPanel.Controls.Add(this.searchButton);
             this.optionsPanel.Controls.Add(this.searchProgressBar);
-            this.optionsPanel.Location = new System.Drawing.Point(213, 15);
-            this.optionsPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.optionsPanel.Location = new System.Drawing.Point(160, 12);
             this.optionsPanel.Name = "optionsPanel";
-            this.optionsPanel.Size = new System.Drawing.Size(333, 293);
+            this.optionsPanel.Size = new System.Drawing.Size(251, 250);
             this.optionsPanel.TabIndex = 6;
             this.optionsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
+            // toggleIDTextBox
+            // 
+            this.toggleIDTextBox.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.toggleIDTextBox.Location = new System.Drawing.Point(7, 185);
+            this.toggleIDTextBox.Name = "toggleIDTextBox";
+            this.toggleIDTextBox.ReadOnly = true;
+            this.toggleIDTextBox.Size = new System.Drawing.Size(116, 20);
+            this.toggleIDTextBox.TabIndex = 15;
+            this.toggleIDTextBox.Text = "Toggle ID";
+            this.toggleIDTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toggleIDTextBox.TextChanged += new System.EventHandler(this.toggleIDTextBox_TextChanged);
+            // 
+            // toggleDateTextBox
+            // 
+            this.toggleDateTextBox.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.toggleDateTextBox.Location = new System.Drawing.Point(6, 159);
+            this.toggleDateTextBox.Name = "toggleDateTextBox";
+            this.toggleDateTextBox.ReadOnly = true;
+            this.toggleDateTextBox.Size = new System.Drawing.Size(116, 20);
+            this.toggleDateTextBox.TabIndex = 14;
+            this.toggleDateTextBox.Text = "Toggle Date";
+            this.toggleDateTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // emaiLimitNumericUpDown
             // 
-            this.emaiLimitNumericUpDown.Location = new System.Drawing.Point(163, 69);
-            this.emaiLimitNumericUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.emaiLimitNumericUpDown.Location = new System.Drawing.Point(122, 56);
             this.emaiLimitNumericUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             this.emaiLimitNumericUpDown.Name = "emaiLimitNumericUpDown";
-            this.emaiLimitNumericUpDown.Size = new System.Drawing.Size(159, 22);
+            this.emaiLimitNumericUpDown.Size = new System.Drawing.Size(119, 20);
             this.emaiLimitNumericUpDown.TabIndex = 13;
             this.emaiLimitNumericUpDown.Value = new decimal(new int[] {
             100,
@@ -181,38 +201,34 @@
             this.descendingCheckBox.AutoSize = true;
             this.descendingCheckBox.Checked = true;
             this.descendingCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.descendingCheckBox.Location = new System.Drawing.Point(163, 103);
-            this.descendingCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.descendingCheckBox.Location = new System.Drawing.Point(124, 84);
             this.descendingCheckBox.Name = "descendingCheckBox";
-            this.descendingCheckBox.Size = new System.Drawing.Size(18, 17);
+            this.descendingCheckBox.Size = new System.Drawing.Size(15, 14);
             this.descendingCheckBox.TabIndex = 12;
             this.descendingCheckBox.UseVisualStyleBackColor = true;
             // 
             // endDateTimePicker
             // 
-            this.endDateTimePicker.Location = new System.Drawing.Point(163, 164);
-            this.endDateTimePicker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.endDateTimePicker.Location = new System.Drawing.Point(122, 133);
             this.endDateTimePicker.Name = "endDateTimePicker";
-            this.endDateTimePicker.Size = new System.Drawing.Size(159, 22);
+            this.endDateTimePicker.Size = new System.Drawing.Size(120, 20);
             this.endDateTimePicker.TabIndex = 11;
             // 
             // startDateTimePicker
             // 
-            this.startDateTimePicker.Location = new System.Drawing.Point(163, 132);
-            this.startDateTimePicker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.startDateTimePicker.Location = new System.Drawing.Point(122, 107);
             this.startDateTimePicker.Name = "startDateTimePicker";
-            this.startDateTimePicker.Size = new System.Drawing.Size(159, 22);
+            this.startDateTimePicker.Size = new System.Drawing.Size(120, 20);
             this.startDateTimePicker.TabIndex = 10;
             this.startDateTimePicker.Value = new System.DateTime(2025, 12, 31, 0, 0, 0, 0);
             // 
             // endDateTextBox
             // 
             this.endDateTextBox.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.endDateTextBox.Location = new System.Drawing.Point(8, 164);
-            this.endDateTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.endDateTextBox.Location = new System.Drawing.Point(6, 133);
             this.endDateTextBox.Name = "endDateTextBox";
             this.endDateTextBox.ReadOnly = true;
-            this.endDateTextBox.Size = new System.Drawing.Size(153, 22);
+            this.endDateTextBox.Size = new System.Drawing.Size(116, 20);
             this.endDateTextBox.TabIndex = 9;
             this.endDateTextBox.Text = "End Date";
             this.endDateTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -221,11 +237,10 @@
             // startDateTextBox
             // 
             this.startDateTextBox.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.startDateTextBox.Location = new System.Drawing.Point(8, 132);
-            this.startDateTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.startDateTextBox.Location = new System.Drawing.Point(6, 107);
             this.startDateTextBox.Name = "startDateTextBox";
             this.startDateTextBox.ReadOnly = true;
-            this.startDateTextBox.Size = new System.Drawing.Size(153, 22);
+            this.startDateTextBox.Size = new System.Drawing.Size(116, 20);
             this.startDateTextBox.TabIndex = 8;
             this.startDateTextBox.Text = "Start Date";
             this.startDateTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -233,11 +248,10 @@
             // descendingTextBox
             // 
             this.descendingTextBox.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.descendingTextBox.Location = new System.Drawing.Point(8, 100);
-            this.descendingTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.descendingTextBox.Location = new System.Drawing.Point(6, 81);
             this.descendingTextBox.Name = "descendingTextBox";
             this.descendingTextBox.ReadOnly = true;
-            this.descendingTextBox.Size = new System.Drawing.Size(153, 22);
+            this.descendingTextBox.Size = new System.Drawing.Size(116, 20);
             this.descendingTextBox.TabIndex = 7;
             this.descendingTextBox.Text = "Descending";
             this.descendingTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -246,11 +260,10 @@
             // emailLimitTextBox
             // 
             this.emailLimitTextBox.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.emailLimitTextBox.Location = new System.Drawing.Point(8, 68);
-            this.emailLimitTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.emailLimitTextBox.Location = new System.Drawing.Point(6, 55);
             this.emailLimitTextBox.Name = "emailLimitTextBox";
             this.emailLimitTextBox.ReadOnly = true;
-            this.emailLimitTextBox.Size = new System.Drawing.Size(152, 22);
+            this.emailLimitTextBox.Size = new System.Drawing.Size(115, 20);
             this.emailLimitTextBox.TabIndex = 6;
             this.emailLimitTextBox.Text = "Email Limit";
             this.emailLimitTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -259,54 +272,50 @@
             // 
             this.folderNameTextBox.BackColor = System.Drawing.SystemColors.Control;
             this.folderNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.folderNameTextBox.Location = new System.Drawing.Point(9, 4);
-            this.folderNameTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.folderNameTextBox.Location = new System.Drawing.Point(7, 3);
             this.folderNameTextBox.Multiline = true;
             this.folderNameTextBox.Name = "folderNameTextBox";
             this.folderNameTextBox.ReadOnly = true;
-            this.folderNameTextBox.Size = new System.Drawing.Size(313, 57);
+            this.folderNameTextBox.Size = new System.Drawing.Size(236, 47);
             this.folderNameTextBox.TabIndex = 5;
             this.folderNameTextBox.Text = "jason.holloway\\inbox";
             this.folderNameTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.folderNameTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // toggleDateTextBox
+            // toggleDateCheckBox
             // 
-            this.toggleDateTextBox.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.toggleDateTextBox.Location = new System.Drawing.Point(7, 198);
-            this.toggleDateTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.toggleDateTextBox.Name = "toggleDateTextBox";
-            this.toggleDateTextBox.ReadOnly = true;
-            this.toggleDateTextBox.Size = new System.Drawing.Size(153, 22);
-            this.toggleDateTextBox.TabIndex = 14;
-            this.toggleDateTextBox.Text = "Toggle Date";
-            this.toggleDateTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toggleDateCheckBox.AutoSize = true;
+            this.toggleDateCheckBox.Checked = true;
+            this.toggleDateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toggleDateCheckBox.Location = new System.Drawing.Point(122, 162);
+            this.toggleDateCheckBox.Name = "toggleDateCheckBox";
+            this.toggleDateCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.toggleDateCheckBox.TabIndex = 16;
+            this.toggleDateCheckBox.UseVisualStyleBackColor = true;
             // 
-            // toggleIDTextBox
+            // toggleIDCheckBox
             // 
-            this.toggleIDTextBox.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.toggleIDTextBox.Location = new System.Drawing.Point(9, 222);
-            this.toggleIDTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.toggleIDTextBox.Name = "toggleIDTextBox";
-            this.toggleIDTextBox.ReadOnly = true;
-            this.toggleIDTextBox.Size = new System.Drawing.Size(153, 22);
-            this.toggleIDTextBox.TabIndex = 15;
-            this.toggleIDTextBox.Text = "Toggle Date";
-            this.toggleIDTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.toggleIDTextBox.TextChanged += new System.EventHandler(this.toggleIDTextBox_TextChanged);
+            this.toggleIDCheckBox.AutoSize = true;
+            this.toggleIDCheckBox.Checked = true;
+            this.toggleIDCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toggleIDCheckBox.Location = new System.Drawing.Point(122, 188);
+            this.toggleIDCheckBox.Name = "toggleIDCheckBox";
+            this.toggleIDCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.toggleIDCheckBox.TabIndex = 17;
+            this.toggleIDCheckBox.UseVisualStyleBackColor = true;
             // 
             // SearchForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(563, 407);
+            this.ClientSize = new System.Drawing.Size(422, 312);
             this.Controls.Add(this.optionsPanel);
             this.Controls.Add(this.openResultsButton);
             this.Controls.Add(this.saveCSVButton);
             this.Controls.Add(this.filtersCheckedListBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "SearchForm";
             this.Text = "Email Search";
             this.Load += new System.EventHandler(this.SearchForm_Load);
@@ -336,5 +345,7 @@
         private System.Windows.Forms.NumericUpDown emaiLimitNumericUpDown;
         private System.Windows.Forms.TextBox toggleIDTextBox;
         private System.Windows.Forms.TextBox toggleDateTextBox;
+        private System.Windows.Forms.CheckBox toggleIDCheckBox;
+        private System.Windows.Forms.CheckBox toggleDateCheckBox;
     }
 }

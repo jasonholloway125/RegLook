@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Interop.Outlook;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -17,7 +18,7 @@ namespace ClydeStewthEmailParser.Scripts
 {
     internal static class Search
     {
-        public static void SearchFolder(Config config, string[] filterNames, DateTime start, DateTime end, int emailLimit, bool desc)
+        public static DataTable SearchFolder(Config config, string[] filterNames, DateTime start, DateTime end, int emailLimit = 100, bool desc = true, bool date = true, bool id = true)
         {
             Debug.WriteLine(start.ToString());
             Debug.WriteLine(end.ToString());
@@ -27,11 +28,27 @@ namespace ClydeStewthEmailParser.Scripts
             List<Filter> filters = GetFiltersByName(config, filterNames);
             IEnumerable<Outlook.MailItem> emails = GetAllEmailsFromSelectedFolder(start, end, emailLimit, desc);
 
-            List<StringMatch[]> allSubstrings = GetSubstrings(emails, filters);
+            //List<StringMatch[]> allSubstrings = GetSubstrings(emails, filters);
+            List<Dictionary<string, StringMatch>> records = GetSubstrings(emails, filters);
 
-            Debug.WriteLine(allSubstrings.Count);
+            //Debug.WriteLine(allSubstrings.Count);
+            Debug.WriteLine(records.Count);
+
+            DataTable dt = new DataTable();
 
 
+            foreach(Dictionary<string, StringMatch> rec in records)
+            {
+                DataRow dr = dt.NewRow();
+
+                foreach (KeyValuePair<string, StringMatch> kvp in rec)
+                {
+                    
+                }
+            }
+
+
+            return dt;
         }
 
         public static Outlook.MAPIFolder GetCurrentFolder()
@@ -47,20 +64,55 @@ namespace ClydeStewthEmailParser.Scripts
             return null;
         }
 
+        private static string[] GetColumnNames(List<Filter> filters)
+        {
+            return null;
+        }
 
-        private static List<StringMatch[]> GetSubstrings(IEnumerable<Outlook.MailItem> emails, List<Filter> filters)
+
+        private static List<Dictionary<string, StringMatch>> GetSubstrings(IEnumerable<Outlook.MailItem> emails, List<Filter> filters)
         {
             List<StringMatch[]> allSubstrings = new List<StringMatch[]>();
+            List<Dictionary<string, StringMatch>> records = new List<Dictionary<string, StringMatch>>();
 
             foreach (Outlook.MailItem email in emails)
             {
-                foreach (Filter filter in filters)
+                Dictionary<string, StringMatch> filterResults = new Dictionary<string, StringMatch>();
+
+                for (int i = 0; i < filters.Count; i++)
                 {
+                    Filter filter = filters[i];
 
-                    if (!DetectEmail(email, filter.Detect)) continue;
+
+                    bool detect = DetectEmail(email, filter.Detect);
 
 
-                    List<StringMatch> substrings = ExtractEmail(email, filter.Extract);
+                    List<StringMatch> substrings = new List<StringMatch>();
+
+                    for (int j = 0; j < filter.Extract.Length; j++) 
+                    {
+                        Parsing parsing = filter.Extract[j];
+
+                        string column = string.Format("{0} - {1}", filter.Name.Length == 0 ? i.ToString() : filter.Name, parsing.Name.Length == 0 ? j.ToString() : parsing.Name);
+                        filterResults.Add(column, null);
+
+                        if (!detect) continue;
+
+                        string txt = GetSource(email, parsing.Source);
+                        Match sub = Regex.Match(txt, parsing.Regex);
+
+
+                        StringMatch stringMatch = null;
+                        if (sub.Success)
+                        {
+                            stringMatch = new StringMatch(sub.Value, parsing, email);
+                        }
+
+                        filterResults[column] = stringMatch;
+                        substrings.Add(stringMatch);
+                    }
+
+                    //List<StringMatch> substrings = ExtractEmail(email, filter.Extract);
 
                     if (substrings.Count == 0) continue;
 
@@ -70,12 +122,14 @@ namespace ClydeStewthEmailParser.Scripts
                     }
 
                     allSubstrings.Add(substrings.ToArray());
+                    records.Add(filterResults);
                 }
 
                 Marshal.ReleaseComObject(email);
             }
 
-            return allSubstrings;
+            //return allSubstrings;
+            return records;
         }
 
         private static List<StringMatch> ExtractEmail(MailItem email, Parsing[] extract)
@@ -87,9 +141,13 @@ namespace ClydeStewthEmailParser.Scripts
                 string txt = GetSource(email, parsing.Source);
                 Match sub  = Regex.Match(txt, parsing.Regex);
 
-                if (!sub.Success) continue;
 
-                StringMatch stringMatch = new StringMatch(sub.Value, parsing, email);
+                StringMatch stringMatch = null;
+                if (sub.Success)
+                {
+                    stringMatch = new StringMatch(sub.Value, parsing, email);
+                }
+
                 substrings.Add(stringMatch);
             }
 
@@ -196,5 +254,14 @@ namespace ClydeStewthEmailParser.Scripts
                 Email = email;
             }
         }
+
+        public class Record
+        {
+
+        }
     }
 }
+
+
+//no cache causes error
+//no emails causes error
