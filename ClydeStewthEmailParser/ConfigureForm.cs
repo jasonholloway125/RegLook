@@ -1,5 +1,6 @@
 ﻿using ClydeStewthEmailParser.Scripts;
 using Microsoft.Office.Core;
+using Microsoft.Office.Interop.Outlook;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -55,7 +56,7 @@ namespace ClydeStewthEmailParser
 
         public void UpdateTitle()
         {
-            folderTitle.Text = Search.GetCurrentFolder().FolderPath.Substring(2);
+            folderTitle.Text = SearchFunc.GetCurrentFolder().FolderPath.Substring(2);
         }
 
         private Control GetControlByName(string name, Control control)
@@ -97,7 +98,9 @@ namespace ClydeStewthEmailParser
             bool date = toggleDateCB.Checked;
             bool id = toggleIDCB.Checked;
             
-            Search.SearchFolder(sff.Config, checkedItems, start, end, emailLimit, desc, date, id);
+            DataTable dt = SearchFunc.SearchFolder(sff.Config, checkedItems, start, end, emailLimit, desc, date, id);
+            
+
         }
 
         private void button2_Click(object sender, EventArgs e)

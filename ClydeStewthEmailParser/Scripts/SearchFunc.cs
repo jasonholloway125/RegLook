@@ -16,7 +16,7 @@ using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace ClydeStewthEmailParser.Scripts
 {
-    internal static class Search
+    internal static class SearchFunc
     {
         public static DataTable SearchFolder(Config config, string[] filterNames, DateTime start, DateTime end, int emailLimit = 100, bool desc = true, bool date = true, bool id = true)
         {
@@ -28,22 +28,42 @@ namespace ClydeStewthEmailParser.Scripts
             List<Filter> filters = GetFiltersByName(config, filterNames);
             IEnumerable<Outlook.MailItem> emails = GetAllEmailsFromSelectedFolder(start, end, emailLimit, desc);
 
+            string[] columnNames = GetColumnNames(filters);
+
             //List<StringMatch[]> allSubstrings = GetSubstrings(emails, filters);
-            List<Dictionary<string, StringMatch>> records = GetSubstrings(emails, filters);
+            List<Dictionary<string, StringMatch>> records = GetSubstrings(emails, filters, columnNames);
 
             //Debug.WriteLine(allSubstrings.Count);
             Debug.WriteLine(records.Count);
 
             DataTable dt = new DataTable();
 
+            DataColumn[] dataColumns = GetDataColumns(columnNames);
+
+            dt.Columns.AddRange(dataColumns);
 
             foreach(Dictionary<string, StringMatch> rec in records)
             {
                 DataRow dr = dt.NewRow();
 
+                bool empty = true;
+
                 foreach (KeyValuePair<string, StringMatch> kvp in rec)
                 {
-                    
+                    if(kvp.Value != null)
+                    {
+                        dr[kvp.Key] = kvp.Value.SubString;
+                        empty = false;
+                    }
+                    else
+                    {
+                        dr[kvp.Key] = null;
+                    }
+                }
+
+                if (!empty)
+                {
+                    dt.Rows.Add(dr);
                 }
             }
 
@@ -64,13 +84,40 @@ namespace ClydeStewthEmailParser.Scripts
             return null;
         }
 
+        private static DataColumn[] GetDataColumns(string[] columnNames)
+        {
+            DataColumn[] dataColumns = new DataColumn[columnNames.Length];
+
+            for(int i = 0; i < columnNames.Length; i++)
+            {
+                dataColumns[i] = new DataColumn(columnNames[i], typeof(string));
+            }
+
+            return dataColumns;
+        }
+
         private static string[] GetColumnNames(List<Filter> filters)
         {
-            return null;
+            List<string> columnNames = new List<string>();
+
+            for (int i = 0; i < filters.Count; i++)
+            {
+                Filter filter = filters[i];
+
+                for (int j = 0; j < filter.Extract.Length; j++)
+                {
+                    Parsing parsing = filter.Extract[j];
+
+                    columnNames.Add(string.Format("{0} - {1}", filter.Name.Length == 0 ? i.ToString() : filter.Name, parsing.Name.Length == 0 ? j.ToString() : parsing.Name));
+                }
+                    
+            }
+            
+            return columnNames.ToArray();
         }
 
 
-        private static List<Dictionary<string, StringMatch>> GetSubstrings(IEnumerable<Outlook.MailItem> emails, List<Filter> filters)
+        private static List<Dictionary<string, StringMatch>> GetSubstrings(IEnumerable<Outlook.MailItem> emails, List<Filter> filters, string[] columnNames)
         {
             List<StringMatch[]> allSubstrings = new List<StringMatch[]>();
             List<Dictionary<string, StringMatch>> records = new List<Dictionary<string, StringMatch>>();
@@ -79,6 +126,7 @@ namespace ClydeStewthEmailParser.Scripts
             {
                 Dictionary<string, StringMatch> filterResults = new Dictionary<string, StringMatch>();
 
+                int k = 0;
                 for (int i = 0; i < filters.Count; i++)
                 {
                     Filter filter = filters[i];
@@ -93,8 +141,11 @@ namespace ClydeStewthEmailParser.Scripts
                     {
                         Parsing parsing = filter.Extract[j];
 
-                        string column = string.Format("{0} - {1}", filter.Name.Length == 0 ? i.ToString() : filter.Name, parsing.Name.Length == 0 ? j.ToString() : parsing.Name);
+                        string column = columnNames[k];
+                        
                         filterResults.Add(column, null);
+
+                        k++;
 
                         if (!detect) continue;
 
@@ -116,10 +167,10 @@ namespace ClydeStewthEmailParser.Scripts
 
                     if (substrings.Count == 0) continue;
 
-                    foreach (StringMatch sm in substrings)
-                    {
-                        Debug.WriteLine(sm.SubString + " from " + sm.Parsing.Name);
-                    }
+                    //foreach (StringMatch sm in substrings)
+                    //{
+                    //    Debug.WriteLine(sm.SubString + " from " + sm.Parsing.Name);
+                    //}
 
                     allSubstrings.Add(substrings.ToArray());
                     records.Add(filterResults);
@@ -265,3 +316,5 @@ namespace ClydeStewthEmailParser.Scripts
 
 //no cache causes error
 //no emails causes error
+//cache search settings
+//
