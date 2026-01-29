@@ -35,6 +35,8 @@
             this.saveCSVButton = new System.Windows.Forms.Button();
             this.openResultsButton = new System.Windows.Forms.Button();
             this.optionsPanel = new System.Windows.Forms.Panel();
+            this.toggleIDCheckBox = new System.Windows.Forms.CheckBox();
+            this.toggleDateCheckBox = new System.Windows.Forms.CheckBox();
             this.toggleIDTextBox = new System.Windows.Forms.TextBox();
             this.toggleDateTextBox = new System.Windows.Forms.TextBox();
             this.emaiLimitNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -46,8 +48,6 @@
             this.descendingTextBox = new System.Windows.Forms.TextBox();
             this.emailLimitTextBox = new System.Windows.Forms.TextBox();
             this.folderNameTextBox = new System.Windows.Forms.TextBox();
-            this.toggleDateCheckBox = new System.Windows.Forms.CheckBox();
-            this.toggleIDCheckBox = new System.Windows.Forms.CheckBox();
             this.optionsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.emaiLimitNumericUpDown)).BeginInit();
             this.SuspendLayout();
@@ -154,6 +154,28 @@
             this.optionsPanel.Size = new System.Drawing.Size(251, 250);
             this.optionsPanel.TabIndex = 6;
             this.optionsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // toggleIDCheckBox
+            // 
+            this.toggleIDCheckBox.AutoSize = true;
+            this.toggleIDCheckBox.Checked = true;
+            this.toggleIDCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toggleIDCheckBox.Location = new System.Drawing.Point(122, 188);
+            this.toggleIDCheckBox.Name = "toggleIDCheckBox";
+            this.toggleIDCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.toggleIDCheckBox.TabIndex = 17;
+            this.toggleIDCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // toggleDateCheckBox
+            // 
+            this.toggleDateCheckBox.AutoSize = true;
+            this.toggleDateCheckBox.Checked = true;
+            this.toggleDateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toggleDateCheckBox.Location = new System.Drawing.Point(122, 162);
+            this.toggleDateCheckBox.Name = "toggleDateCheckBox";
+            this.toggleDateCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.toggleDateCheckBox.TabIndex = 16;
+            this.toggleDateCheckBox.UseVisualStyleBackColor = true;
             // 
             // toggleIDTextBox
             // 
@@ -282,28 +304,6 @@
             this.folderNameTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.folderNameTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // toggleDateCheckBox
-            // 
-            this.toggleDateCheckBox.AutoSize = true;
-            this.toggleDateCheckBox.Checked = true;
-            this.toggleDateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toggleDateCheckBox.Location = new System.Drawing.Point(122, 162);
-            this.toggleDateCheckBox.Name = "toggleDateCheckBox";
-            this.toggleDateCheckBox.Size = new System.Drawing.Size(15, 14);
-            this.toggleDateCheckBox.TabIndex = 16;
-            this.toggleDateCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // toggleIDCheckBox
-            // 
-            this.toggleIDCheckBox.AutoSize = true;
-            this.toggleIDCheckBox.Checked = true;
-            this.toggleIDCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toggleIDCheckBox.Location = new System.Drawing.Point(122, 188);
-            this.toggleIDCheckBox.Name = "toggleIDCheckBox";
-            this.toggleIDCheckBox.Size = new System.Drawing.Size(15, 14);
-            this.toggleIDCheckBox.TabIndex = 17;
-            this.toggleIDCheckBox.UseVisualStyleBackColor = true;
-            // 
             // SearchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -315,9 +315,10 @@
             this.Controls.Add(this.filtersCheckedListBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "SearchForm";
             this.Text = "Email Search";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SearchForm_FormClosing);
             this.Load += new System.EventHandler(this.SearchForm_Load);
             this.optionsPanel.ResumeLayout(false);
             this.optionsPanel.PerformLayout();

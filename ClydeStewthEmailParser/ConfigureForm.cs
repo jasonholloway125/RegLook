@@ -27,6 +27,15 @@ namespace ClydeStewthEmailParser
         private DateTimePicker endDTP;
         private CheckBox toggleDateCB;
         private CheckBox toggleIDCB;
+        private ProgressBar progressBar;
+
+        private DataManager dmConfig;
+        private DataManager dmSettings;
+
+        private readonly string configFilename = "config.json";
+        private readonly string settingsFilename = "search.json";
+
+        private DataTable dtSearch;
 
         public SearchForm()
         {
@@ -41,15 +50,19 @@ namespace ClydeStewthEmailParser
             endDTP = (DateTimePicker)GetControlByName("endDateTimePicker", panel);
             toggleDateCB = (CheckBox)GetControlByName("toggleDateCheckBox", panel);
             toggleIDCB = (CheckBox)GetControlByName("toggleIDCheckBox", panel);
+            progressBar = (ProgressBar)GetControlByName("searchProgressBar", panel);
 
-            DataManager dm = new DataManager();
+            dmConfig = new DataManager(configFilename);
+            dmSettings = new DataManager(settingsFilename);
 
-            Config config = dm.LoadCachedConfig();
-            
+            Config config = dmConfig.LoadCachedConfig<Config>();
             sff = new SearchFormFunc(this, config);
 
             ThisAddIn addInInstance = Globals.ThisAddIn;
             addInInstance.UpdateForm(this);
+
+            
+            LoadSettings();
 
             UpdateTitle();
         }
@@ -57,6 +70,19 @@ namespace ClydeStewthEmailParser
         public void UpdateTitle()
         {
             folderTitle.Text = SearchFunc.GetCurrentFolder().FolderPath.Substring(2);
+        }
+
+        private void LoadSettings()
+        {
+            SearchSettings searchSettings = dmSettings.LoadCachedConfig<SearchSettings>();
+            if (searchSettings == null) return;
+
+            emaiLimitNUD.Value = searchSettings.EmailLimit;
+            descendingCB.Checked = searchSettings.Descending;
+            startDateTimePicker.Value = DateTime.Parse(searchSettings.StartDate);
+            endDateTimePicker.Value = DateTime.Parse(searchSettings.EndDate);
+            toggleDateCB.Checked = searchSettings.ToggleDate;
+            toggleIDCB.Checked = searchSettings.ToggleID;
         }
 
         private Control GetControlByName(string name, Control control)
@@ -87,7 +113,7 @@ namespace ClydeStewthEmailParser
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             string[] checkedItems = sff.GetCheckedItems();
 
@@ -98,9 +124,9 @@ namespace ClydeStewthEmailParser
             bool date = toggleDateCB.Checked;
             bool id = toggleIDCB.Checked;
             
-            DataTable dt = SearchFunc.SearchFolder(sff.Config, checkedItems, start, end, emailLimit, desc, date, id);
-            
+            dtSearch = await Task.Run(() => SearchFunc.SearchFolder(sff.Config, checkedItems, start, end, emailLimit, desc, date, id));
 
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -137,7 +163,9 @@ namespace ClydeStewthEmailParser
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            DataViewTest dataView = new DataViewTest();
+            dataView.test.DataSource = dtSearch;
+            dataView.Show();
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -162,6 +190,21 @@ namespace ClydeStewthEmailParser
 
         private void toggleIDTextBox_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void SearchForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SearchSettings searchSettings = new SearchSettings(
+                (int)emaiLimitNUD.Value,
+                descendingCB.Checked,
+                startDateTimePicker.Value.ToString(),
+                endDateTimePicker.Value.ToString(),
+                toggleDateCB.Checked,
+                toggleIDCB.Checked
+                );
+
+            dmSettings.CacheConfig<SearchSettings>(searchSettings);
 
         }
     }

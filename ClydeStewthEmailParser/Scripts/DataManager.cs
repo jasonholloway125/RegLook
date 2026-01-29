@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,17 +13,17 @@ namespace ClydeStewthEmailParser
     {
         private readonly string configFilePath;
 
-        public DataManager()
+        public DataManager(string fileName)
         {
             string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string pluginFolder = Path.Combine(appData, "Seamless Intelligence", "Email Parser");
 
             Directory.CreateDirectory(pluginFolder);
 
-            configFilePath = Path.Combine(pluginFolder, "config.json");
+            configFilePath = Path.Combine(pluginFolder, fileName);
         }
 
-        public void CacheConfig(Config config)
+        public void CacheConfig<T>(T config)
         {
             try
             {
@@ -35,23 +36,21 @@ namespace ClydeStewthEmailParser
             }
         }
 
-        public Config LoadCachedConfig()
+        public T LoadCachedConfig<T>()
         {
             try
             {
-                if (!File.Exists(configFilePath))
-                    return new Config();
-
                 string json = File.ReadAllText(configFilePath);
-                return JsonConvert.DeserializeObject<Config>(json) ?? new Config();
+                return JsonConvert.DeserializeObject<T>(json);
             }
-            catch (Exception e)
+            catch (FileNotFoundException ex)
             {
-                throw new InvalidOperationException($"Failed to load data: {e.Message}", e);
+                Console.WriteLine($"File not found: {ex.Message}");
+                return default(T);
             }
         }
 
-        public void ExportConfig(Config config, string filePath)
+        public void ExportConfig<T>(T config, string filePath)
         {
             try
             {
@@ -64,16 +63,17 @@ namespace ClydeStewthEmailParser
             }
         }
 
-        public Config ImportConfig(string filePath)
+        public T ImportConfig<T>(string filePath)
         {
             try
             {
                 string json = File.ReadAllText(filePath);
-                return JsonConvert.DeserializeObject<Config>(json) ?? throw new Exception("Returned NULL");
+                return JsonConvert.DeserializeObject<T>(json);
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException($"Failed to load data: {e.Message}", e);
+                Debug.WriteLine($"Failed to load data: {e.Message}");
+                return default(T);
             }
         }
     }

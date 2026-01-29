@@ -216,11 +216,11 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="DataView.cs">
+    <Compile Include="DataViewTest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DataView.Designer.cs">
-      <DependentUpon>DataView.cs</DependentUpon>
+    <Compile Include="DataViewTest.Designer.cs">
+      <DependentUpon>DataViewTest.cs</DependentUpon>
     </Compile>
     <Compile Include="Scripts\Config.cs" />
     <Compile Include="ConfigureForm.cs">
@@ -242,8 +242,8 @@
     <EmbeddedResource Include="ConfigureForm.resx">
       <DependentUpon>ConfigureForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataView.resx">
-      <DependentUpon>DataView.cs</DependentUpon>
+    <EmbeddedResource Include="DataViewTest.resx">
+      <DependentUpon>DataViewTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ParseRibbon.resx">
       <DependentUpon>ParseRibbon.cs</DependentUpon>
@@ -270,6 +270,7 @@
     </Compile>
     <Compile Include="Scripts\SearchFunc.cs" />
     <Compile Include="Scripts\SearchFormFunc.cs" />
+    <Compile Include="Scripts\SearchSettings.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static ClydeStewthEmailParser.Scripts.SearchFunc;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
 
@@ -18,7 +19,7 @@ namespace ClydeStewthEmailParser.Scripts
 {
     internal static class SearchFunc
     {
-        public static DataTable SearchFolder(Config config, string[] filterNames, DateTime start, DateTime end, int emailLimit = 100, bool desc = true, bool date = true, bool id = true)
+        public static async Task<DataTable> SearchFolder(Config config, string[] filterNames, DateTime start, DateTime end, int emailLimit = 100, bool desc = true, bool date = true, bool id = true)
         {
             Debug.WriteLine(start.ToString());
             Debug.WriteLine(end.ToString());
@@ -31,18 +32,38 @@ namespace ClydeStewthEmailParser.Scripts
             string[] columnNames = GetColumnNames(filters);
 
             //List<StringMatch[]> allSubstrings = GetSubstrings(emails, filters);
-            List<Dictionary<string, StringMatch>> records = GetSubstrings(emails, filters, columnNames);
+            List<Dictionary<string, StringMatch>> records = await Task.Run(() => GetSubstrings(emails, filters, columnNames));
 
             //Debug.WriteLine(allSubstrings.Count);
             Debug.WriteLine(records.Count);
 
+            DataTable dt = await Task.Run(() => RecordsToDataTable(records, columnNames));
+
+            return dt;
+        }
+
+        public static Outlook.MAPIFolder GetCurrentFolder()
+        {
+            Outlook.Explorer explorer = Globals.ThisAddIn.Application.ActiveExplorer();
+
+            if (explorer != null)
+            {
+                Outlook.MAPIFolder selectedFolder = explorer.CurrentFolder;
+                return selectedFolder;
+            }
+
+            return null;
+        }
+
+        private static async Task<DataTable> RecordsToDataTable(List<Dictionary<string, StringMatch>> records, string[] columnNames)
+        {
             DataTable dt = new DataTable();
 
             DataColumn[] dataColumns = GetDataColumns(columnNames);
 
             dt.Columns.AddRange(dataColumns);
 
-            foreach(Dictionary<string, StringMatch> rec in records)
+            foreach (Dictionary<string, StringMatch> rec in records)
             {
                 DataRow dr = dt.NewRow();
 
@@ -50,7 +71,7 @@ namespace ClydeStewthEmailParser.Scripts
 
                 foreach (KeyValuePair<string, StringMatch> kvp in rec)
                 {
-                    if(kvp.Value != null)
+                    if (kvp.Value != null)
                     {
                         dr[kvp.Key] = kvp.Value.SubString;
                         empty = false;
@@ -69,19 +90,6 @@ namespace ClydeStewthEmailParser.Scripts
 
 
             return dt;
-        }
-
-        public static Outlook.MAPIFolder GetCurrentFolder()
-        {
-            Outlook.Explorer explorer = Globals.ThisAddIn.Application.ActiveExplorer();
-
-            if (explorer != null)
-            {
-                Outlook.MAPIFolder selectedFolder = explorer.CurrentFolder;
-                return selectedFolder;
-            }
-
-            return null;
         }
 
         private static DataColumn[] GetDataColumns(string[] columnNames)
@@ -117,7 +125,7 @@ namespace ClydeStewthEmailParser.Scripts
         }
 
 
-        private static List<Dictionary<string, StringMatch>> GetSubstrings(IEnumerable<Outlook.MailItem> emails, List<Filter> filters, string[] columnNames)
+        private static async Task<List<Dictionary<string, StringMatch>>> GetSubstrings(IEnumerable<Outlook.MailItem> emails, List<Filter> filters, string[] columnNames)
         {
             List<StringMatch[]> allSubstrings = new List<StringMatch[]>();
             List<Dictionary<string, StringMatch>> records = new List<Dictionary<string, StringMatch>>();

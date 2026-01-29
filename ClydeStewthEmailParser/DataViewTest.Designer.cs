@@ -1,6 +1,6 @@
 ﻿namespace ClydeStewthEmailParser
 {
-    partial class DataView
+    partial class DataViewTest
     {
         /// <summary>
         /// Required designer variable.
@@ -28,44 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.MercyCaseNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MercyIncidentNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
             this.backButton = new System.Windows.Forms.Button();
             this.saveCSVButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridView
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.MercyCaseNumber,
-            this.MercyIncidentNumber});
-            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(632, 371);
-            this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // MercyCaseNumber
-            // 
-            this.MercyCaseNumber.FillWeight = 150F;
-            this.MercyCaseNumber.HeaderText = "Mercy - Case Number";
-            this.MercyCaseNumber.Name = "MercyCaseNumber";
-            this.MercyCaseNumber.ReadOnly = true;
-            this.MercyCaseNumber.Width = 150;
-            // 
-            // MercyIncidentNumber
-            // 
-            this.MercyIncidentNumber.FillWeight = 150F;
-            this.MercyIncidentNumber.HeaderText = "Mercy - Incident Number";
-            this.MercyIncidentNumber.Name = "MercyIncidentNumber";
-            this.MercyIncidentNumber.ReadOnly = true;
-            this.MercyIncidentNumber.Width = 150;
+            this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
+            this.dataGridView.Size = new System.Drawing.Size(632, 371);
+            this.dataGridView.TabIndex = 0;
+            this.dataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // backButton
             // 
@@ -75,6 +54,7 @@
             this.backButton.TabIndex = 1;
             this.backButton.Text = "Back";
             this.backButton.UseVisualStyleBackColor = true;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
             // saveCSVButton
             // 
@@ -85,27 +65,25 @@
             this.saveCSVButton.Text = "Save to CSV";
             this.saveCSVButton.UseVisualStyleBackColor = true;
             // 
-            // DataView
+            // DataViewTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(653, 430);
             this.Controls.Add(this.saveCSVButton);
             this.Controls.Add(this.backButton);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridView);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "DataView";
+            this.Name = "DataViewTest";
             this.Text = "DataView";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MercyCaseNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MercyIncidentNumber;
+        private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Button backButton;
         private System.Windows.Forms.Button saveCSVButton;
     }

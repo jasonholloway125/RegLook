@@ -10,14 +10,24 @@ using System.Windows.Forms;
 
 namespace ClydeStewthEmailParser
 {
-    public partial class DataView : Form
+    public partial class DataViewTest : Form
     {
-        public DataView()
+        public DataGridView test;
+
+        public DataViewTest()
         {
             InitializeComponent();
+
+
+            test = this.dataGridView;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void backButton_Click(object sender, EventArgs e)
         {
 
         }

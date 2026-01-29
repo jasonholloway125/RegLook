@@ -19,6 +19,8 @@ namespace ClydeStewthEmailParser
     {
         private SearchForm searchForm = null;
 
+        private readonly string configFilename = "config.json";
+
         private void ParseRibbon_Load(object sender, RibbonUIEventArgs e)
         {
 
@@ -38,8 +40,8 @@ namespace ClydeStewthEmailParser
         private void configure1_Click(object sender, RibbonControlEventArgs e)
         {
 
-            DataManager dm = new DataManager();
-            Config test = dm.LoadCachedConfig();
+            DataManager dm = new DataManager(configFilename);
+            Config test = dm.LoadCachedConfig<Config>();
 
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = "c:\\";
@@ -90,8 +92,8 @@ namespace ClydeStewthEmailParser
             {
                 filePath = openFileDialog.FileName;
             }
-            DataManager dm = new DataManager();
-            Config config = dm.ImportConfig(filePath);
+            DataManager dm = new DataManager(configFilename);
+            Config config = dm.ImportConfig<Config>(filePath);
             dm.CacheConfig(config);
             Debug.WriteLine(config.Filters[0].Name);
         }
